@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Surprise</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: pink;
+            position: relative;
+            text-align: center;
+        }
+        .floating-heart {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png');
+            animation: float 5s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        .welcome-text {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .dialog-box {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .buttons {
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #no-btn {
+            position: absolute;
+            transition: left 0.3s ease, top 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function createFloatingElements(type, count) {
+            for (let i = 0; i < count; i++) {
+                let element = document.createElement('div');
+                element.classList.add(type);
+                element.style.left = Math.random() * window.innerWidth + 'px';
+                element.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(element);
+            }
+        }
+        createFloatingElements('floating-heart', 20);
+    </script>
+    
+    <div class="welcome-text" id="welcome">Welcome to the Surprise!</div>
+    <div class="dialog-box" id="dialog">
+        <p>Are you ready for a surprise?</p>
+        <div class="buttons">
+            <button class="btn" id="yes-btn">Yes</button>
+            <button class="btn" id="no-btn">No</button>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(() => {
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('dialog').style.display = 'block';
+        }, 5000);
+
+        document.getElementById('no-btn').addEventListener('mouseover', function() {
+            let maxX = window.innerWidth - this.offsetWidth - 10;
+            let maxY = window.innerHeight - this.offsetHeight - 10;
+            this.style.left = Math.random() * maxX + 'px';
+            this.style.top = Math.random() * maxY + 'px';
+        });
+
+        document.getElementById('yes-btn').addEventListener('click', function() {
+            document.body.innerHTML = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: pink; text-align: center;">' +
+                '<h1 style="font-size: 4rem; color: white; text-shadow: 2px 2px 5px black;">Happy Birthday Buggu!</h1>' +
+                '</div>';
+            setTimeout(() => {
+                createFloatingElements('floating-heart', 20);
+            }, 100);
+        });
+    </script>
+</body>
+</html>
